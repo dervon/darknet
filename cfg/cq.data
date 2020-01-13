@@ -1,0 +1,5 @@
+classes= 8
+train = /home/ubuntu/train_data/cq2020/cq2020_train.txt
+valid = /home/ubuntu/train_data/cq2020/cq2020_test.txt
+names = data/cq.names
+backup = backup
