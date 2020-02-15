@@ -1,0 +1,261 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>15.0</VCProjectVersion>
+    <ProjectGuid>{88E6541A-DC2B-4598-A7F6-975F17E8D1D4}</ProjectGuid>
+    <RootNamespace>yolov3</RootNamespace>
+    <WindowsTargetPlatformVersion>10.0.17763.0</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <IncludePath>$(MSBuildProjectDirectory)\..\..\include;$(IncludePath)</IncludePath>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <SDLCheck>true</SDLCheck>
+      <ConformanceMode>true</ConformanceMode>
+    </ClCompile>
+    <Link>
+      <SubSystem>Console</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\examples\art.c" />
+    <ClCompile Include="..\..\examples\attention.c" />
+    <ClCompile Include="..\..\examples\captcha.c" />
+    <ClCompile Include="..\..\examples\cifar.c" />
+    <ClCompile Include="..\..\examples\classifier.c" />
+    <ClCompile Include="..\..\examples\coco.c" />
+    <ClCompile Include="..\..\examples\darknet.c" />
+    <ClCompile Include="..\..\examples\detector.c" />
+    <ClCompile Include="..\..\examples\dice.c" />
+    <ClCompile Include="..\..\examples\instance-segmenter.c" />
+    <ClCompile Include="..\..\examples\lsd.c" />
+    <ClCompile Include="..\..\examples\nightmare.c" />
+    <ClCompile Include="..\..\examples\regressor.c" />
+    <ClCompile Include="..\..\examples\rnn.c" />
+    <ClCompile Include="..\..\examples\rnn_vid.c" />
+    <ClCompile Include="..\..\examples\segmenter.c" />
+    <ClCompile Include="..\..\examples\super.c" />
+    <ClCompile Include="..\..\examples\tag.c" />
+    <ClCompile Include="..\..\examples\yolo.c" />
+    <ClCompile Include="..\..\src\activations.c" />
+    <ClCompile Include="..\..\src\activation_layer.c" />
+    <ClCompile Include="..\..\src\avgpool_layer.c" />
+    <ClCompile Include="..\..\src\batchnorm_layer.c" />
+    <ClCompile Include="..\..\src\blas.c" />
+    <ClCompile Include="..\..\src\box.c" />
+    <ClCompile Include="..\..\src\col2im.c" />
+    <ClCompile Include="..\..\src\connected_layer.c" />
+    <ClCompile Include="..\..\src\convolutional_layer.c" />
+    <ClCompile Include="..\..\src\cost_layer.c" />
+    <ClCompile Include="..\..\src\crnn_layer.c" />
+    <ClCompile Include="..\..\src\crop_layer.c" />
+    <ClCompile Include="..\..\src\cuda.c" />
+    <ClCompile Include="..\..\src\data.c" />
+    <ClCompile Include="..\..\src\deconvolutional_layer.c" />
+    <ClCompile Include="..\..\src\demo.c" />
+    <ClCompile Include="..\..\src\detection_layer.c" />
+    <ClCompile Include="..\..\src\dropout_layer.c" />
+    <ClCompile Include="..\..\src\gemm.c" />
+    <ClCompile Include="..\..\src\gru_layer.c" />
+    <ClCompile Include="..\..\src\im2col.c" />
+    <ClCompile Include="..\..\src\image.c" />
+    <ClCompile Include="..\..\src\iseg_layer.c" />
+    <ClCompile Include="..\..\src\l2norm_layer.c" />
+    <ClCompile Include="..\..\src\layer.c" />
+    <ClCompile Include="..\..\src\list.c" />
+    <ClCompile Include="..\..\src\local_layer.c" />
+    <ClCompile Include="..\..\src\logistic_layer.c" />
+    <ClCompile Include="..\..\src\lstm_layer.c" />
+    <ClCompile Include="..\..\src\matrix.c" />
+    <ClCompile Include="..\..\src\maxpool_layer.c" />
+    <ClCompile Include="..\..\src\network.c" />
+    <ClCompile Include="..\..\src\normalization_layer.c" />
+    <ClCompile Include="..\..\src\option_list.c" />
+    <ClCompile Include="..\..\src\parser.c" />
+    <ClCompile Include="..\..\src\region_layer.c" />
+    <ClCompile Include="..\..\src\reorg_layer.c" />
+    <ClCompile Include="..\..\src\rnn_layer.c" />
+    <ClCompile Include="..\..\src\route_layer.c" />
+    <ClCompile Include="..\..\src\shortcut_layer.c" />
+    <ClCompile Include="..\..\src\softmax_layer.c" />
+    <ClCompile Include="..\..\src\tree.c" />
+    <ClCompile Include="..\..\src\upsample_layer.c" />
+    <ClCompile Include="..\..\src\utils.c" />
+    <ClCompile Include="..\..\src\yolo_layer.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\include\darknet.h" />
+    <ClInclude Include="..\..\src\activations.h" />
+    <ClInclude Include="..\..\src\activation_layer.h" />
+    <ClInclude Include="..\..\src\avgpool_layer.h" />
+    <ClInclude Include="..\..\src\batchnorm_layer.h" />
+    <ClInclude Include="..\..\src\blas.h" />
+    <ClInclude Include="..\..\src\box.h" />
+    <ClInclude Include="..\..\src\classifier.h" />
+    <ClInclude Include="..\..\src\col2im.h" />
+    <ClInclude Include="..\..\src\connected_layer.h" />
+    <ClInclude Include="..\..\src\convolutional_layer.h" />
+    <ClInclude Include="..\..\src\cost_layer.h" />
+    <ClInclude Include="..\..\src\crnn_layer.h" />
+    <ClInclude Include="..\..\src\crop_layer.h" />
+    <ClInclude Include="..\..\src\cuda.h" />
+    <ClInclude Include="..\..\src\data.h" />
+    <ClInclude Include="..\..\src\deconvolutional_layer.h" />
+    <ClInclude Include="..\..\src\demo.h" />
+    <ClInclude Include="..\..\src\detection_layer.h" />
+    <ClInclude Include="..\..\src\dropout_layer.h" />
+    <ClInclude Include="..\..\src\gemm.h" />
+    <ClInclude Include="..\..\src\gru_layer.h" />
+    <ClInclude Include="..\..\src\im2col.h" />
+    <ClInclude Include="..\..\src\image.h" />
+    <ClInclude Include="..\..\src\iseg_layer.h" />
+    <ClInclude Include="..\..\src\l2norm_layer.h" />
+    <ClInclude Include="..\..\src\layer.h" />
+    <ClInclude Include="..\..\src\list.h" />
+    <ClInclude Include="..\..\src\local_layer.h" />
+    <ClInclude Include="..\..\src\logistic_layer.h" />
+    <ClInclude Include="..\..\src\lstm_layer.h" />
+    <ClInclude Include="..\..\src\matrix.h" />
+    <ClInclude Include="..\..\src\maxpool_layer.h" />
+    <ClInclude Include="..\..\src\network.h" />
+    <ClInclude Include="..\..\src\normalization_layer.h" />
+    <ClInclude Include="..\..\src\option_list.h" />
+    <ClInclude Include="..\..\src\parser.h" />
+    <ClInclude Include="..\..\src\region_layer.h" />
+    <ClInclude Include="..\..\src\reorg_layer.h" />
+    <ClInclude Include="..\..\src\rnn_layer.h" />
+    <ClInclude Include="..\..\src\route_layer.h" />
+    <ClInclude Include="..\..\src\shortcut_layer.h" />
+    <ClInclude Include="..\..\src\softmax_layer.h" />
+    <ClInclude Include="..\..\src\stb_image.h" />
+    <ClInclude Include="..\..\src\stb_image_write.h" />
+    <ClInclude Include="..\..\src\tree.h" />
+    <ClInclude Include="..\..\src\upsample_layer.h" />
+    <ClInclude Include="..\..\src\utils.h" />
+    <ClInclude Include="..\..\src\yolo_layer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+    <Import Project="packages\pthreads.redist.2.9.1.4\build\native\pthreads.redist.targets" Condition="Exists('packages\pthreads.redist.2.9.1.4\build\native\pthreads.redist.targets')" />
+    <Import Project="packages\pthreads.2.9.1.4\build\native\pthreads.targets" Condition="Exists('packages\pthreads.2.9.1.4\build\native\pthreads.targets')" />
+  </ImportGroup>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('packages\pthreads.redist.2.9.1.4\build\native\pthreads.redist.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\pthreads.redist.2.9.1.4\build\native\pthreads.redist.targets'))" />
+    <Error Condition="!Exists('packages\pthreads.2.9.1.4\build\native\pthreads.targets')" Text="$([System.String]::Format('$(ErrorText)', 'packages\pthreads.2.9.1.4\build\native\pthreads.targets'))" />
+  </Target>
+</Project>

@@ -8,7 +8,7 @@ extern void predict_classifier(char *datacfg, char *cfgfile, char *weightfile, c
 extern void test_detector(char *datacfg, char *cfgfile, char *weightfile, char *filename, float thresh, float hier_thresh, char *outfile, int fullscreen);
 extern void run_yolo(int argc, char **argv);
 extern void run_detector(int argc, char **argv);
-extern void run_coco(int argc, char **argv);
+//extern void run_coco(int argc, char **argv);
 extern void run_nightmare(int argc, char **argv);
 extern void run_classifier(int argc, char **argv);
 extern void run_regressor(int argc, char **argv);
@@ -17,7 +17,7 @@ extern void run_isegmenter(int argc, char **argv);
 extern void run_char_rnn(int argc, char **argv);
 extern void run_tag(int argc, char **argv);
 extern void run_cifar(int argc, char **argv);
-extern void run_go(int argc, char **argv);
+//extern void run_go(int argc, char **argv);
 extern void run_art(int argc, char **argv);
 extern void run_super(int argc, char **argv);
 extern void run_lsd(int argc, char **argv);
@@ -438,11 +438,11 @@ int main(int argc, char **argv)
     } else if (0 == strcmp(argv[1], "cifar")){
         run_cifar(argc, argv);
     } else if (0 == strcmp(argv[1], "go")){
-        run_go(argc, argv);
+        //run_go(argc, argv);
     } else if (0 == strcmp(argv[1], "rnn")){
         run_char_rnn(argc, argv);
     } else if (0 == strcmp(argv[1], "coco")){
-        run_coco(argc, argv);
+        //run_coco(argc, argv);
     } else if (0 == strcmp(argv[1], "classify")){
         predict_classifier("cfg/imagenet1k.data", argv[2], argv[3], argv[4], 5);
     } else if (0 == strcmp(argv[1], "classifier")){
