@@ -5,6 +5,11 @@
 #include <stdio.h>
 #include <math.h>
 
+/*
+Level 1 BLAS主要提供向量操作 y=ax+b
+Level 2 BLAS提供矩阵向量操作（gemv) y=aAx+by
+Level 3 BLAS则提供广义矩阵乘积操作(gemm) C=aAB+bC
+*/
 void gemm_bin(int M, int N, int K, float ALPHA, 
         char  *A, int lda, 
         float *B, int ldb,
@@ -71,15 +76,18 @@ void gemm(int TA, int TB, int M, int N, int K, float ALPHA,
     gemm_cpu( TA,  TB,  M, N, K, ALPHA,A,lda, B, ldb,BETA,C,ldc);
 }
 
+/* 矩阵乘法运算：C=ALPHA*A*B， A矩阵大小是M*K，B矩阵大小是K*N，C矩阵大小是M*N*/
 void gemm_nn(int M, int N, int K, float ALPHA, 
-        float *A, int lda, 
-        float *B, int ldb,
-        float *C, int ldc)
+        float *A, int lda/*矩阵A的递增步长*/, 
+        float *B, int ldb/*矩阵B的递增步长*/,
+        float *C, int ldc/*矩阵C的递增步长*/)
 {
     int i,j,k;
+    /* #pragma omp parallel for是OpenMP中的一个指令，表示接下来的for循环将被多线程执行，另外每次循环之间不能有关系 */
     #pragma omp parallel for
     for(i = 0; i < M; ++i){
         for(k = 0; k < K; ++k){
+            /*A的i行k列与B的k行j列相乘再乘以ALPHA后累加到C的i行j列上*/
             register float A_PART = ALPHA*A[i*lda+k];
             for(j = 0; j < N; ++j){
                 C[i*ldc+j] += A_PART*B[k*ldb+j];
@@ -141,8 +149,11 @@ void gemm_tt(int M, int N, int K, float ALPHA,
     }
 }
 
-
-void gemm_cpu(int TA, int TB, int M, int N, int K, float ALPHA, 
+/* 
+C = ALPHA*A*B + BETA*C 
+TA=0且TB=0时，A矩阵大小是M*K，B矩阵大小是K*N，C矩阵大小是M*N
+*/
+void gemm_cpu(int TA/*A是否转置，1是0否*/, int TB/*B是否转置，1是0否*/, int M, int N, int K, float ALPHA, 
         float *A, int lda, 
         float *B, int ldb,
         float BETA,
@@ -150,6 +161,7 @@ void gemm_cpu(int TA, int TB, int M, int N, int K, float ALPHA,
 {
     //printf("cpu: %d %d %d %d %d %f %d %d %f %d\n",TA, TB, M, N, K, ALPHA, lda, ldb, BETA, ldc);
     int i, j;
+    /*计算C = BETA*C，数乘*/
     for(i = 0; i < M; ++i){
         for(j = 0; j < N; ++j){
             C[i*ldc + j] *= BETA;
