@@ -52,11 +52,11 @@ load_args get_base_args(network *net)
 
 network *load_network(char *cfg, char *weights, int clear)
 {
-    network *net = parse_network_cfg(cfg);
+    network *net = parse_network_cfg(cfg); // 加载cfg/*.cfg中描述的网络参数
     if(weights && weights[0] != 0){
         load_weights(net, weights);
     }
-    if(clear) (*net->seen) = 0;
+    if(clear) (*net->seen) = 0; // clear默认为0
     return net;
 }
 
@@ -311,6 +311,7 @@ float train_network_sgd(network *net, data d, int n)
     return (float)sum/(n*batch);
 }
 
+/* return loss */
 float train_network(network *net, data d)
 {
     assert(d.X.rows % net->batch == 0);

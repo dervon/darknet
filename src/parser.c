@@ -741,14 +741,20 @@ int is_network(section *s)
 
 network *parse_network_cfg(char *filename)
 {
-    list *sections = read_cfg(filename);
+    list *sections = read_cfg(filename); // 第一个是section网络的参数信息，剩下的一个section就是网络中的一层
     node *n = sections->front;
     if(!n) error("Config file has no sections");
-    network *net = make_network(sections->size - 1);
+    network *net = make_network(sections->size - 1); // 申请内存空间
     net->gpu_index = gpu_index;
     size_params params;
 
     section *s = (section *)n->val;
+    // 此处的options表示网络的参数信息，例如图片的长和宽，衰减decay衰减(weight decay权值衰减,在损失函数中，weight decay是放在正则项
+    //（regularization）前面的一个系数，正则项一般指示模型的复杂度，所以weight decay的作用是调节模型复杂度对损失函数的影响，若weight
+    // decay很大，则复杂的模型损失函数的值也就大。
+    // momentum是冲量单元，但是更好地理解方式是“粘性因子”，也就是所说的viscosity。momentum的作用是把直接用SGD方法改变位置（position）的方
+    // 式变成了用SGD来对速度(velocity)进行改变。momentum让“小球”的速度保持一个衡量，增加了某一方向上的连续性，同时减小了因为learning带来的
+    // 波动，因此使得我们采用更大的learning rate来进行训练，从而达到更快。
     list *options = s->options;
     if(!is_network(s)) error("First section must be [net] or [network]");
     parse_net_options(options, net);
@@ -770,7 +776,7 @@ network *parse_network_cfg(char *filename)
         params.index = count;
         fprintf(stderr, "%5d ", count);
         s = (section *)n->val;
-        options = s->options;
+        options = s->options; // options 表示每一层中的配置参数，例如步长stride，零填充pad等
         layer l = {0};
         LAYER_TYPE lt = string_to_layer_type(s->type);
         if(lt == CONVOLUTIONAL){
@@ -857,7 +863,7 @@ network *parse_network_cfg(char *filename)
             params.h = l.out_h;
             params.w = l.out_w;
             params.c = l.out_c;
-            params.inputs = l.outputs;
+            params.inputs = l.outputs; // 第一层是net->h * net->w * net->c
         }
     }
     free_list(sections);

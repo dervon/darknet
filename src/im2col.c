@@ -15,6 +15,7 @@ float im2col_get_pixel(float *im, int height, int width, int channels,
 //https://github.com/BVLC/caffe/blob/master/LICENSE
 /*
 将channels*height*width的输入图像与channels*ksize*ksize的卷基核进行步长为stride，零填充为pad的卷基运算转换成矩阵运算，可以调用gemm
+如果按数学上的运算，则卷积读取内存是不连续的，会增加时间成本。因此才有了img2col,矩阵在内存中是一个连续的内存块。
 (height + 2*pad - ksize) / stride + 1）* （(width + 2*pad - ksize) / stride + 1）* （channels * ksize * ksize）
 |-------------输出图像的高-------------| * |-------------输出图像的宽--------------|
 |------------------------------------矩阵的列-----------------------------------| * |--------矩阵的行----------|

@@ -3,13 +3,24 @@
 static int coco_ids[] = {1,2,3,4,5,6,7,8,9,10,11,13,14,15,16,17,18,19,20,21,22,23,24,25,27,28,31,32,33,34,35,36,37,38,39,40,41,42,43,44,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63,64,65,67,70,72,73,74,75,76,77,78,79,80,81,82,84,85,86,87,88,89,90};
 
 
+/* decector 训练主入口
+ *                  cfg\*.data,    cfg\*.cfg      darknet53.conv.74或backup/yolov3.backup
+ */
 void train_detector(char *datacfg, char *cfgfile, char *weightfile, int *gpus, int ngpus, int clear)
 {
+    // 读取cfg/*.data中的配置文件内容
+    // 主要是包含了训练图片的类别数classes
+    // 存储训练图片路径列表的文件train
+    // 存储验证图片路径列表的文件valid
+    // 存储类别名称列表的文件names
+    // 存储权重等网络信息的备份文件backup
     list *options = read_data_cfg(datacfg);
     char *train_images = option_find_str(options, "train", "data/train.list");
     char *backup_directory = option_find_str(options, "backup", "/backup/");
 
     srand(time(0));
+
+    // 截取cfg/*.cfg中的文件名部分，即/和.中间的内容，也就是*的内容
     char *base = basecfg(cfgfile);
     printf("%s\n", base);
     float avg_loss = -1;
@@ -23,6 +34,7 @@ void train_detector(char *datacfg, char *cfgfile, char *weightfile, int *gpus, i
 #ifdef GPU
         cuda_set_device(gpus[i]);
 #endif
+        // 加载cfg/*.cfg中描述的网络参数和权重文件（例如darknet53.conv.74或backup/yolov3.backup）内容
         nets[i] = load_network(cfgfile, weightfile, clear);
         nets[i]->learning_rate *= ngpus;
     }

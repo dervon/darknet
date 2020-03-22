@@ -40,6 +40,7 @@ void binarize_weights(float *weights, int n, int size, float *binary)
     }
 }
 
+/* 二值化 */
 void binarize_cpu(float *input, int n, float *binary)
 {
     int i;
@@ -179,18 +180,21 @@ convolutional_layer make_convolutional_layer(int batch, int h, int w, int c, int
     convolutional_layer l = {0};
     l.type = CONVOLUTIONAL;
 
-    l.groups = groups;
-    l.h = h;
-    l.w = w;
-    l.c = c;
-    l.n = n;
-    l.binary = binary;
-    l.xnor = xnor;
-    l.batch = batch;
-    l.stride = stride;
-    l.size = size;
-    l.pad = padding;
-    l.batch_normalize = batch_normalize;
+
+    l.batch = batch; // net的参数batch
+    l.h = h; // 输入层的height，也是上一层输出的height，第一层是net的参数height
+    l.w = w; // 输入层的width，也是上一层输出的width，第一层是net的参数width
+    l.c = c; // 输入层的channels，也是上一层输出的channels，第一层是net的参数channels
+
+    l.n = n; // convolutional的参数filters，卷积核个数，默认为1
+    l.groups = groups; // convolutional的参数groups，默认为1
+    l.size = size; // convolutional的参数size，卷积核大小，默认为1
+    l.stride = stride; // convolutional的参数stride，步长，默认为1
+    l.pad = padding; // convolutional的参数，若有pad（默认为0），则size/2，否则的话判断是否有padding，有则取padding的值，默认为0；
+    l.activation = activation; // convolutional的参数activation，激活函数，默认为logistic
+    l.batch_normalize = batch_normalize; // convolutional的参数batch_normalize，是否进行batch normalize操作，默认为0
+    l.binary = binary; // convolutional的参数binary，是否对权重进行二值化，默认为0
+    l.xnor = xnor; // convolutional的参数xnor，是否对权重以及输入进行二值化，默认为0
 
     l.weights = calloc(c/groups*n*size*size, sizeof(float));
     l.weight_updates = calloc(c/groups*n*size*size, sizeof(float));
@@ -201,6 +205,7 @@ convolutional_layer make_convolutional_layer(int batch, int h, int w, int c, int
     l.nweights = c/groups*n*size*size;
     l.nbiases = n;
 
+    // 初始化weights
     // float scale = 1./sqrt(size*size*c);
     float scale = sqrt(2./(size*size*c/l.groups));
     //printf("convscale %f\n", scale);
@@ -215,23 +220,23 @@ convolutional_layer make_convolutional_layer(int batch, int h, int w, int c, int
     l.outputs = l.out_h * l.out_w * l.out_c;
     l.inputs = l.w * l.h * l.c;
 
-    l.output = calloc(l.batch*l.outputs, sizeof(float));
-    l.delta  = calloc(l.batch*l.outputs, sizeof(float));
+    l.output = calloc(l.batch*l.outputs, sizeof(float)); // 卷积层输出
+    l.delta  = calloc(l.batch*l.outputs, sizeof(float)); // 卷积层误差
 
-    l.forward = forward_convolutional_layer;
-    l.backward = backward_convolutional_layer;
-    l.update = update_convolutional_layer;
-    if(binary){
+    l.forward = forward_convolutional_layer; // 指定前向传播处理函数
+    l.backward = backward_convolutional_layer; // 指定反向传播处理函数
+    l.update = update_convolutional_layer; // 指定更新卷积层处理函数
+    if(binary){ // 对权重进行二值化时申请的内存空间
         l.binary_weights = calloc(l.nweights, sizeof(float));
         l.cweights = calloc(l.nweights, sizeof(char));
         l.scales = calloc(n, sizeof(float));
     }
-    if(xnor){
+    if(xnor){ // 对权重及输入进行二值化时申请的内存空间
         l.binary_weights = calloc(l.nweights, sizeof(float));
         l.binary_input = calloc(l.inputs*l.batch, sizeof(float));
     }
 
-    if(batch_normalize){
+    if(batch_normalize){ // 进行归一化处理时所需的内存空间申请
         l.scales = calloc(n, sizeof(float));
         l.scale_updates = calloc(n, sizeof(float));
         for(i = 0; i < n; ++i){
@@ -320,7 +325,6 @@ convolutional_layer make_convolutional_layer(int batch, int h, int w, int c, int
     }
 #endif
     l.workspace_size = get_workspace_size(l);
-    l.activation = activation;
 
     fprintf(stderr, "conv  %5d %2d x%2d /%2d  %4d x%4d x%4d   ->  %4d x%4d x%4d  %5.3f BFLOPs\n", n, size, size, stride, w, h, c, l.out_w, l.out_h, l.out_c, (2.0 * l.n * l.size*l.size*l.c/l.groups * l.out_h*l.out_w)/1000000000.);
 
@@ -448,10 +452,11 @@ void forward_convolutional_layer(convolutional_layer l, network net)
 
     fill_cpu(l.outputs*l.batch, 0, l.output, 1);
 
+    /*是否进行二值化操作*/
     if(l.xnor){
         binarize_weights(l.weights, l.n, l.c/l.groups*l.size*l.size, l.binary_weights);
         swap_binary(&l);
-        binarize_cpu(net.input, l.c*l.h*l.w*l.batch, l.binary_input);
+        binarize_cpu(net.input, l.c*l.h*l.w*l.batch, l.binary_input); /* 二值化 */
         net.input = l.binary_input;
     }
 
@@ -468,8 +473,10 @@ void forward_convolutional_layer(convolutional_layer l, network net)
             if (l.size == 1) {
                 b = im;
             } else {
+                /*将输入图像im转成矩阵b，而后调用gemm进行矩阵运算*/
                 im2col_cpu(im, l.c/l.groups, l.h, l.w, l.size, l.stride, l.pad, b);
             }
+            /*c=a*b+c*/
             gemm(0,0,m,n,k,1,a,k,b,n,1,c,n);
         }
     }
