@@ -45,6 +45,7 @@ void train_detector(char *datacfg, char *cfgfile, char *weightfile, int *gpus, i
     printf("Learning Rate: %g, Momentum: %g, Decay: %g\n", net->learning_rate, net->momentum, net->decay);
     data train, buffer;
 
+    // 获取最后一层的参数，例如在yolov3-voc.cfg的最后一层【yolo】层中有classes和jitter和random的配置
     layer l = net->layers[net->n - 1];
 
     int classes = l.classes;
@@ -71,7 +72,10 @@ void train_detector(char *datacfg, char *cfgfile, char *weightfile, int *gpus, i
     double time;
     int count = 0;
     //while(i*imgs < N*120){
+    // 在while循环里面进行训练
     while(get_current_batch(net) < net->max_batches){
+        // 并行加载数据到buffer中，最终调用了load_data_detection(a.n, a.paths, a.m, a.w, a.h, a.num_boxes, a.classes, 
+        // a.jitter, a.hue, a.saturation, a.exposure);
         if(l.random && count++%10 == 0){
             printf("Resizing\n");
             int dim = (rand() % 10 + 10) * 32;

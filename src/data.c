@@ -1040,12 +1040,14 @@ data load_data_detection(int n, char **paths, int m, int w, int h, int boxes, in
     data d = {0};
     d.shallow = 0;
 
+    // rows表示有几张图片， cols表示每张图片存储的像素点的个数。
     d.X.rows = n;
     d.X.vals = calloc(d.X.rows, sizeof(float*));
     d.X.cols = h*w*3;
 
     d.y = make_matrix(n, 5*boxes);
     for(i = 0; i < n; ++i){
+        // random_paths[i]表示随机取的某张图片的路径，会根据图片的宽和高以及通道数确定返回的image，数据格式是float的。
         image orig = load_image_color(random_paths[i], 0, 0);
         image sized = make_image(w, h, orig.c);
         fill_image(sized, .5);
