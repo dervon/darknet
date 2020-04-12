@@ -3,16 +3,12 @@
 #include <string.h>
 #include <math.h>
 #include <assert.h>
-
+#include <unistd.h>
 #include <float.h>
 #include <limits.h>
 #include <time.h>
-#ifdef _WIN32
-#include <time.h>
-#else
-#include <unistd.h>
 #include <sys/time.h>
-#endif
+
 #include "utils.h"
 
 
@@ -30,15 +26,11 @@ double get_wall_time()
 
 double what_time_is_it_now()
 {
-#ifdef _WIN32
-    return clock();
-#else
-	struct timeval time;
-	if (gettimeofday(&time, NULL)) {
-		return 0;
-	}
-	return (double)time.tv_sec + (double)time.tv_usec * .000001;
-#endif
+    struct timeval time;
+    if (gettimeofday(&time,NULL)){
+        return 0;
+    }
+    return (double)time.tv_sec + (double)time.tv_usec * .000001;
 }
 
 int *read_intlist(char *gpu_list, int *ngpus, int d)
@@ -86,7 +78,7 @@ void sorta_shuffle(void *arr, size_t n, size_t size, size_t sections)
         size_t start = n*i/sections;
         size_t end = n*(i+1)/sections;
         size_t num = end-start;
-        shuffle((char *)arr+(start*size), num, size);
+        shuffle(arr+(start*size), num, size);
     }
 }
 
@@ -96,9 +88,9 @@ void shuffle(void *arr, size_t n, size_t size)
     void *swp = calloc(1, size);
     for(i = 0; i < n-1; ++i){
         size_t j = i + rand()/(RAND_MAX / (n-i)+1);
-        memcpy(swp, (char *)arr+(j*size), size);
-        memcpy((char *)arr+(j*size), (char *)arr+(i*size), size);
-        memcpy((char *)arr+(i*size), swp,          size);
+        memcpy(swp,          arr+(j*size), size);
+        memcpy(arr+(j*size), arr+(i*size), size);
+        memcpy(arr+(i*size), swp,          size);
     }
 }
 

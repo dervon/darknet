@@ -4,9 +4,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <pthread.h>
-#ifdef _WIN32
-#pragma comment(lib,"pthreadVC2.lib")
-#endif
 
 #ifdef GPU
     #define BLOCK 512
